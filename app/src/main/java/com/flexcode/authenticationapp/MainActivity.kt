@@ -1,5 +1,6 @@
 package com.flexcode.authenticationapp
 
+import LoginScreen
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -13,7 +14,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.flexcode.authenticationapp.presentation.welcome.WelcomeScreen
 import com.flexcode.authenticationapp.ui.theme.AuthenticationAppTheme
 import com.ramcosta.composedestinations.DestinationsNavHost
 import com.ramcosta.composedestinations.rememberNavHostEngine
@@ -29,16 +29,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    val navController = rememberNavController()
-                    val navHostEngine = rememberNavHostEngine()
-                    val newBackStackEntry by navController.currentBackStackEntryAsState()
-                    val route = newBackStackEntry?.destination?.route
-
-                    DestinationsNavHost(
-                        navGraph = NavGraphs.root,
-                        navController = navController,
-                        engine = navHostEngine
-                    )
+                    LoginScreen()
                 }
             }
         }

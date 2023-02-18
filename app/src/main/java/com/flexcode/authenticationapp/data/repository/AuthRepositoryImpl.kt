@@ -15,28 +15,35 @@ class AuthRepositoryImpl(
     private val preferences: AuthPreferences
 
 ) : AuthRepository{
+    //    override suspend fun login(loginRequest: AuthRequest): Resource<Unit> {
+//       return try {
+//           val response = apiService.loginUser(loginRequest)
+//           preferences.saveAuthToken(response.token)
+//           Resource.Success(Unit)
+//       }catch (e: IOException){
+//           Resource.Error("${e.message}")
+//       }catch (e: HttpException){
+//           Resource.Error("${e.message}")
+//       }
+//    }
+//
+//    override suspend fun register(registerRequest: AuthRequest): Resource<Unit> {
+//        return try {
+//           val response = apiService.registerUser(registerRequest)
+//            preferences.saveAuthToken(response.token)
+//            Resource.Success(Unit)
+//        }catch (e: IOException){
+//            Resource.Error("${e.message}")
+//        }catch (e: HttpException){
+//            Resource.Error("${e.message}")
+//        }
+//    }
     override suspend fun login(loginRequest: AuthRequest): Resource<Unit> {
-       return try {
-           val response = apiService.loginUser(loginRequest)
-           preferences.saveAuthToken(response.token)
-           Resource.Success(Unit)
-       }catch (e: IOException){
-           Resource.Error("${e.message}")
-       }catch (e: HttpException){
-           Resource.Error("${e.message}")
-       }
+        TODO("Not yet implemented")
     }
 
     override suspend fun register(registerRequest: AuthRequest): Resource<Unit> {
-        return try {
-           val response = apiService.registerUser(registerRequest)
-            preferences.saveAuthToken(response.token)
-            Resource.Success(Unit)
-        }catch (e: IOException){
-            Resource.Error("${e.message}")
-        }catch (e: HttpException){
-            Resource.Error("${e.message}")
-        }
+        TODO("Not yet implemented")
     }
 
 

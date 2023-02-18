@@ -9,18 +9,19 @@ import com.flexcode.authenticationapp.data.local.AuthPreferences
 import com.flexcode.authenticationapp.data.remote.ApiService
 import com.flexcode.authenticationapp.data.repository.AuthRepositoryImpl
 import com.flexcode.authenticationapp.domain.repository.AuthRepository
+import com.flexcode.authenticationapp.domain.repository.FPLrepository
 import com.flexcode.authenticationapp.domain.use_case.LoginUseCase
-import com.flexcode.authenticationapp.domain.use_case.RegisterUseCase
 import com.flexcode.authenticationapp.util.Constants.AUTH_PREFERENCES
-import com.flexcode.authenticationapp.util.Constants.BASE_URL
-import com.google.gson.Gson
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
 @Module
@@ -36,6 +37,26 @@ object AppModule {
             }
         )
 
+    @Singleton
+    @Provides
+    fun provideLoggingInterceptor(): HttpLoggingInterceptor {
+        return HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
+    }
+    @Provides
+    @Singleton
+    fun provideOkHttpClient(
+        httpLoggingInterceptor: HttpLoggingInterceptor,
+    ): OkHttpClient {
+        val okHttpClient = OkHttpClient.Builder()
+            .addInterceptor(httpLoggingInterceptor)
+            .callTimeout(15, TimeUnit.SECONDS)
+            .connectTimeout(15, TimeUnit.SECONDS)
+            .writeTimeout(15, TimeUnit.SECONDS)
+            .readTimeout(15, TimeUnit.SECONDS)
+
+        return okHttpClient.build()
+    }
+
     @Provides
     @Singleton
     fun provideAuthPreferences(dataStore: DataStore<Preferences>) =
@@ -44,10 +65,11 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun providesApiService(): ApiService {
+    fun providesApiService(okHttpClient: OkHttpClient): ApiService {
         return Retrofit.Builder()
-            .baseUrl(BASE_URL)
+            .baseUrl("https://fantasy.premierleague.com/")
             .addConverterFactory(GsonConverterFactory.create())
+            .client(okHttpClient)
             .build()
             .create(ApiService::class.java)
     }
@@ -65,16 +87,15 @@ object AppModule {
     }
 
     @Provides
-    @Singleton
-    fun providesLoginUseCase(repository: AuthRepository): LoginUseCase {
-        return LoginUseCase(repository)
+    fun provideFPLRepository(apiService: ApiService): FPLrepository {
+        return FPLrepository(apiService)
     }
-
 
     @Provides
     @Singleton
-    fun providesRegisterUseCase(repository: AuthRepository): RegisterUseCase {
-        return RegisterUseCase(repository)
+    fun providesLoginUseCase(repository: FPLrepository): LoginUseCase {
+        return LoginUseCase(repository)
     }
+
 
 }

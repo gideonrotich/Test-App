@@ -2,16 +2,18 @@ package com.flexcode.authenticationapp.data.remote
 
 import com.flexcode.authenticationapp.data.remote.request.AuthRequest
 import com.flexcode.authenticationapp.data.remote.response.AuthResponse
-import retrofit2.http.Body
-import retrofit2.http.GET
-import retrofit2.http.POST
+import com.flexcode.authenticationapp.data.remote.response.LoginResponse
+import okhttp3.ResponseBody
+import retrofit2.Call
+import retrofit2.http.*
 
 interface ApiService {
 
-    @POST("api/login")
-    suspend fun loginUser(
-        @Body loginRequest: AuthRequest
-    ) : AuthResponse
+    @POST("accounts/login")
+    suspend fun login(
+        @Field("login") login: String,
+        @Field("password") password: String
+    ) : LoginResponse
 
 
     @POST("api/register")
