@@ -11,10 +11,16 @@ interface ApiService {
 
 
     @FormUrlEncoded
-    @POST("accounts/login")
+    @POST("accounts/login/")
+    @Headers(
+        "User-Agent: Dalvik"
+    )
     suspend fun login(
+
         @Field("login") login: String,
-        @Field("password") password: String
+        @Field("password") password: String,
+        @Field("redirect_uri") redirect_uri: String = "https://fantasy.premierleague.com/a/login",
+        @Field("app") app: String = "plfpl-web"
     ) : LoginResponse
 
 

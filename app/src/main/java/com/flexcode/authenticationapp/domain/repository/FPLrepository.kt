@@ -12,7 +12,7 @@ class FPLrepository(private val apiService: ApiService) {
         return try {
             val response = apiService.login(username, password)
             if (response.success) {
-                val sessionCookie = response.redirect_url?.substringAfter("session=").orEmpty()
+//                val sessionCookie = response.redirect_url?.substringAfter("session=").orEmpty()
                 // Add session cookie to OkHttpClient instance to authenticate subsequent requests
                 Resource.Success(true)
             } else {

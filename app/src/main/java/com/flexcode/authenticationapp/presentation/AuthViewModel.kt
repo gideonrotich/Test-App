@@ -18,6 +18,8 @@ class AuthViewModel @Inject constructor(
     val loginResult: LiveData<Resource<Boolean>> = _loginResult
 
 
+
+
     fun login(username: String, password: String) {
         viewModelScope.launch {
             _loginResult.value = Resource.Loading()

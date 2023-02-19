@@ -44,7 +44,7 @@ fun LoginScreen(
             modifier = Modifier.padding(bottom = 16.dp),
         )
         Button(
-            onClick = { viewModel.login(username.value, password.value) },
+            onClick = { viewModel.login("giddyrotich433@gmail.com", "Giddy2214@") },
             modifier = Modifier.fillMaxWidth(),
         ) {
             Text(text = "Log in")

@@ -30,7 +30,7 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun providePreferenceDataStore(@ApplicationContext context: Context) : DataStore<Preferences> =
+    fun providePreferenceDataStore(@ApplicationContext context: Context): DataStore<Preferences> =
         PreferenceDataStoreFactory.create(
             produceFile = {
                 context.preferencesDataStoreFile(AUTH_PREFERENCES)
@@ -42,6 +42,7 @@ object AppModule {
     fun provideLoggingInterceptor(): HttpLoggingInterceptor {
         return HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
     }
+
     @Provides
     @Singleton
     fun provideOkHttpClient(
@@ -56,6 +57,7 @@ object AppModule {
 
         return okHttpClient.build()
     }
+
 
     @Provides
     @Singleton
